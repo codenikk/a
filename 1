@@ -1,0 +1,107 @@
+#include <iostream>
+using namespace std;
+
+class Graph
+{
+    int n;           
+    int graph[4][4]; 
+
+public:
+    Graph()
+    {
+        n = 4;
+        void initialize_graph();
+        int index();
+    }
+
+    void initialize_graph()
+    {
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                if (i != j)
+                {
+                    graph[i][j] = graph[j][i] = 0;
+                }
+                else
+                {
+                    graph[i][j] = graph[j][i] = -1;
+                }
+            }
+        }
+    }
+
+    int index(char C)
+    {
+        switch (C)
+        {
+        case 'A':
+                return 0;
+                break;
+            case 'B':
+                return 1;
+                break;
+            case 'C':
+                return 2;
+                break;
+            case 'D':
+                return 3;
+                break;
+            case 'E':
+                return 4;
+                break;
+            }
+        }
+    
+        int store()
+        {
+            int p;
+            cout << "How many paths are there: ";
+            cin >> p;
+            
+            for (int i = 0; i < p; i++)
+            {
+                char s, d;
+                int cost;
+                cout << "\nEnter Source City(A,B,C,D,E): ";
+                cin >> s;
+                int idx1 = index(s);
+
+                cout << "\nEnter Destination City(A,B,C,D,E): ";
+                cin >> d;
+                int idx2 = index(d);
+
+                cout << "Enter Cost of path: ";
+                cin >> cost;
+
+                graph[idx1][idx2] = graph[idx2][idx1] = cost;
+
+            }
+        }
+
+
+    void display()
+    {
+    cout << "\nAdjacency Matrix Representation of Graph:\n";
+   
+    for (int i = 0; i < n; i++)
+    {
+        cout << char('A' + i) << " ";
+        for (int j = 0; j < n; j++)
+        {
+            cout << graph[i][j] << " ";
+        }
+        cout << endl;
+    }
+}
+};
+
+int main()
+{
+    Graph g;
+    g.initialize_graph();
+    g.store();
+    g.display();
+    return 0;
+}
