@@ -1,0 +1,111 @@
+#include <iostream>
+using namespace std;
+
+class JobQueue 
+{
+    int Jobqueue[20];
+    int front;
+    int rear;
+    int max;
+
+public:
+    JobQueue() 
+	{
+        front = 0;
+        rear = -1;
+        max = 20;
+    }
+
+    bool IsEmpty() 
+	{
+        return (front > rear);
+    }
+
+    bool IsFull() 
+	{
+        return (rear == max - 1);
+    }
+
+    void enqueue() 
+	{
+        int J;
+        char ch;
+
+        do 
+		{
+            if (!IsFull()) 
+			{
+                cout << "Enter the Job No.: ";
+                cin >> J;
+                rear++;
+                Jobqueue[rear] = J;
+            } 
+			else 
+			{
+                cout << "\nQueue Overflow!\n";
+                break;
+            }
+
+            cout << "Do you want to add more jobs (y/n): ";
+            cin >> ch;
+
+        } while (ch == 'y' || ch == 'Y');
+    }
+
+    void dequeue()
+    {
+        char ch;
+
+        if (IsEmpty()) 
+		{
+            cout << "\nQueue Underflow! No jobs to delete.\n";
+            return;
+        }
+
+        do {
+            cout << "\nDeleted Job No: " << Jobqueue[front] << endl;
+            front++;
+
+            if (front > rear) 
+			{
+                front = 0;
+                rear = -1;
+                cout << "\nAll jobs deleted. Queue is now empty.\n";
+                break;
+            }
+
+            cout << "Do you want to delete more jobs (y/n): ";
+            cin >> ch;
+
+        } 
+		while ((ch == 'y' || ch == 'Y') && !IsEmpty());
+    }
+
+    void display() {
+        if (!IsEmpty()) 
+		{
+            cout << "\nJobs in Queue: ";
+            for (int i = front; i <= rear; i++) 
+			{
+                cout << Jobqueue[i] << " ";
+            }
+            cout << endl;
+        } 
+		else 
+		{
+            cout << "\nQueue is empty.\n";
+        }
+    }
+};
+
+int main() 
+{
+    JobQueue q;
+
+    q.enqueue();
+    q.display();
+    q.dequeue();
+    q.display();
+
+    return 0;
+}
