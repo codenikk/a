@@ -1,0 +1,73 @@
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+int main() 
+{
+    int n;
+    cout << "How many students were at the program: ";
+    cin >> n;
+
+    int arr[n];
+
+    for (int i = 0; i < n; i++) 
+    {
+        cout << "Enter roll number of present student " << i + 1 << ": ";
+        cin >> arr[i];
+    }
+
+    cout << "\nList of present students:\n";
+    for (int i = 0; i < n; i++) 
+    {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+
+    sort(arr, arr + n);
+
+    char ch;
+    do 
+    {
+        int key, pres = 0;
+        cout << "\nEnter roll number to check presence: ";
+        cin >> key;
+
+        int start = 0, end = n - 1;
+        while (start <= end) 
+        {
+            int mid = (start + end) / 2;
+
+            if (arr[mid] == key) 
+            {
+                pres = 1;
+                break;
+            }
+            else if (key < arr[mid]) 
+            {
+                end = mid - 1;
+            }
+            else 
+            {
+                start = mid + 1;
+            }
+        }
+
+        if (pres == 1)
+            cout << "Student is present.\n";
+        else
+            cout << "Student is absent.\n";
+
+        cout << "Do you want to continue (y/n)? ";
+        cin >> ch;
+    } 
+    while (ch == 'y' || ch == 'Y');
+
+    cout << "\nSorted list of present students: ";
+    for (int i = 0; i < n; i++) 
+    {
+        cout << arr[i] << " ";
+    }
+
+    cout << endl;
+    return 0;
+}
