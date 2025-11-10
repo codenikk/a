@@ -1,0 +1,84 @@
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+struct database
+{
+    char name[10];
+    int tel_no;
+};
+
+int main()
+{
+    int n;
+    database Dhash[10];
+
+    cout << "How many data do you want to store: ";
+    cin >> n;
+
+    for (int i = 0; i < 10; i++)
+    {
+        strcpy(Dhash[i].name, "none");
+        Dhash[i].tel_no = -1;
+    }
+
+    cout << endl;
+    cout << "***Empty Hash Table***" << endl;
+    cout << "Name   Telephone no" << endl;
+    for (int i = 0; i < 10; i++)
+    {
+        cout << Dhash[i].name << "   " << Dhash[i].tel_no << endl;
+    }
+    cout << endl;
+
+    char Tname[10];
+    int tel;
+
+    for (int i = 0; i < n; i++)
+    {
+        cout << "Enter client's Name: ";
+        cin >> Tname;
+
+        cout << "Enter Telephone No.: ";
+        cin >> tel;
+
+        int total = 0;
+        for (int j = 0; Tname[j] != '\0'; j++)
+        {
+            total += Tname[j];
+        }
+
+        int h1 = total % 10;          
+        int h2 = 7 - (total % 7);     
+
+        if (Dhash[h1].tel_no == -1)
+        {
+            strcpy(Dhash[h1].name, Tname);
+            Dhash[h1].tel_no = tel;
+        }
+        else
+        {
+            for (int i = 1; i < 10; i++)
+            {
+                int nh = (h1 + i * h2) % 10;   
+                if (Dhash[nh].tel_no == -1)
+                {
+                    strcpy(Dhash[nh].name, Tname);
+                    Dhash[nh].tel_no = tel;
+                    break;
+                }
+            }
+        }
+
+        cout << endl;
+        cout << "***Double Hashing Table***" << endl;
+        cout << "Name   Telephone no" << endl;
+        for (int i = 0; i < 10; i++)
+        {
+            cout << Dhash[i].name << "   " << Dhash[i].tel_no << endl;
+        }
+        cout << endl;
+    }
+
+    return 0;
+}
