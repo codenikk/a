@@ -1,107 +1,52 @@
 #include <iostream>
+#include <algorithm>
 using namespace std;
 
-class Graph
-{
-    int n;           
-    int graph[4][4]; 
+int main() {
+    int n;
+    cout << "How many students were at the program: ";
+    cin >> n;
 
-public:
-    Graph()
-    {
-        n = 4;
-        void initialize_graph();
-        int index();
+    int arr[n];  // dynamic array
+    for (int i = 0; i < n; i++) {
+        cout << "Enter roll number of present student " << i + 1 << ": ";
+        cin >> arr[i];
     }
 
-    void initialize_graph()
-    {
-        for (int i = 0; i < n; i++)
-        {
-            for (int j = 0; j < n; j++)
-            {
-                if (i != j)
-                {
-                    graph[i][j] = graph[j][i] = 0;
-                }
-                else
-                {
-                    graph[i][j] = graph[j][i] = -1;
-                }
-            }
-        }
+    cout << "\nList of present students:\n";
+    for (int i = 0; i < n; i++) {
+        cout << arr[i] << " ";
     }
+    cout << endl;
 
-    int index(char C)
-    {
-        switch (C)
-        {
-        case 'A':
-                return 0;
-                break;
-            case 'B':
-                return 1;
-                break;
-            case 'C':
-                return 2;
-                break;
-            case 'D':
-                return 3;
-                break;
-            case 'E':
-                return 4;
+    char ch;
+    do {
+        int key, pres = 0;
+        cout << "\nEnter roll number to check presence: ";
+        cin >> key;
+
+        for (int i = 0; i < n; i++) {
+            if (arr[i] == key) {
+                pres = 1;
                 break;
             }
         }
-    
-        int store()
-        {
-            int p;
-            cout << "How many paths are there: ";
-            cin >> p;
-            
-            for (int i = 0; i < p; i++)
-            {
-                char s, d;
-                int cost;
-                cout << "\nEnter Source City(A,B,C,D,E): ";
-                cin >> s;
-                int idx1 = index(s);
 
-                cout << "\nEnter Destination City(A,B,C,D,E): ";
-                cin >> d;
-                int idx2 = index(d);
+        if (pres == 1)
+            cout << "student is present.\n";
+        else
+            cout << "student is absent.\n";
 
-                cout << "Enter Cost of path: ";
-                cin >> cost;
+        cout << "Do you want to continue (y/n)? ";
+        cin >> ch;
+    } while (ch == 'y' || ch == 'Y');
+    sort(arr, arr + n);
 
-                graph[idx1][idx2] = graph[idx2][idx1] = cost;
-
-            }
-        }
-
-
-    void display()
-    {
-    cout << "\nAdjacency Matrix Representation of Graph:\n";
-   
-    for (int i = 0; i < n; i++)
-    {
-        cout << char('A' + i) << " ";
-        for (int j = 0; j < n; j++)
-        {
-            cout << graph[i][j] << " ";
-        }
-        cout << endl;
+    cout << "\nSorted list of present students: ";
+    for (int i = 0; i < n; i++) {
+        cout << arr[i] << " ";
     }
-}
-};
 
-int main()
-{
-    Graph g;
-    g.initialize_graph();
-    g.store();
-    g.display();
+    cout << endl;
     return 0;
 }
