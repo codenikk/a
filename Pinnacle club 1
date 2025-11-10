@@ -1,0 +1,175 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+struct Node {
+    int PRN;
+    string name;
+    Node *next;
+};
+
+class Club {
+public:
+    Node *president, *secretary;
+
+    Club() {
+        president = NULL;
+        secretary = NULL;
+    }
+
+    void addPresident();
+    void addMember();
+    void addSecretary();
+
+    void display();
+
+    void totalMembers();
+};
+
+
+void Club::addPresident() {
+    if (president != NULL) {
+        cout << "President already exists!\n";
+        return;
+    }
+
+    Node *nnode = new Node;
+    cout << "Enter PRN of President: ";
+    cin >> nnode->PRN;
+    cin.ignore();
+    cout << "Enter Name of President: ";
+    getline(cin, nnode->name);
+
+    nnode->next = NULL;
+    president = secretary = nnode;
+
+    cout << "President added successfully!\n";
+}
+
+void Club::addMember() {
+    if (president == NULL) {
+        cout << "Please add President first.\n";
+        return;
+    }
+
+    Node *nnode = new Node;
+    cout << "Enter PRN of Member: ";
+    cin >> nnode->PRN;
+    cin.ignore();
+    cout << "Enter Name of Member: ";
+    getline(cin, nnode->name);
+
+    if (secretary == NULL) 
+	{
+        president->next = nnode;
+        secretary = nnode;
+        nnode->next = NULL;
+    } else {
+        Node *temp = president;
+        while (temp->next != secretary && temp->next != NULL)
+            temp = temp->next;
+
+        nnode->next = secretary;
+        temp->next = nnode;
+    }
+
+    cout << "Member added successfully!\n";
+}
+
+void Club::addSecretary() {
+    if (president == NULL) {
+        cout << "Please add President first.\n";
+        return;
+    }
+
+    if (secretary != NULL && secretary != president) 
+	{
+        cout << "Secretary already exists!\n";
+        return;
+    }
+
+    Node *nnode = new Node;
+    cout << "Enter PRN of Secretary: ";
+    cin >> nnode->PRN;
+    cin.ignore();
+    cout << "Enter Name of Secretary: ";
+    getline(cin, nnode->name);
+
+    nnode->next = NULL;
+    if (president == secretary) {
+        president->next = nnode;
+    } else {
+        Node *temp = president;
+        while (temp->next != NULL)
+            temp = temp->next;
+        temp->next = nnode;
+    }
+
+    secretary = nnode;
+    cout << "Secretary added successfully!\n";
+}
+
+void Club::display() {
+    if (president == NULL) {
+        cout << "Club is empty!\n";
+        return;
+    }
+
+    Node *temp = president;
+    cout << "\nClub Members \n";
+    while (temp != NULL) {
+        cout << "PRN: " << temp->PRN << " | Name: " << temp->name;
+        if (temp == president)
+            cout << "  (President)";
+        else if (temp == secretary)
+            cout << "  (Secretary)";
+        cout << endl;
+        temp = temp->next;
+    }
+}
+
+void Club::totalMembers() 
+{
+    int count = 0;
+    Node *temp = president;
+    while (temp != NULL)
+    {
+        count++;
+        temp = temp->next;
+    }
+
+    cout << "\nTotal Members in the Club: " << count << endl;
+}
+
+
+int main() 
+{
+    Club c;
+    int choice;
+
+    do
+	{
+        cout << "\n *Club Menu*\n";
+        cout << "1. Add President\n";
+        cout << "2. Add Member\n";
+        cout << "3. Add Secretary\n";
+        cout << "4. Display Members\n";
+        cout << "5. Show Total Members\n";
+        cout << "0. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch(choice) 
+		{
+            case 1: c.addPresident(); break;
+            case 2: c.addMember(); break;
+            case 3: c.addSecretary(); break;
+            case 4: c.display(); break;
+            case 5: c.totalMembers(); break;
+            case 0: cout << "Exiting...\n"; break;
+            default: cout << "Invalid choice!\n";
+        }
+    } while (choice != 0);
+
+    return 0;
+}
