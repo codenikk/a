@@ -1,0 +1,43 @@
+#include<iostream>
+using namespace std;
+int main()
+{
+	int i,n,j,minI;
+	float t,min;
+	cout<<"Enter the number of 1st year students\n";
+	cin>>n;
+	float A[n];
+	cout<<"Enter percentage of students\n";
+	for(i=0;i<n;i++)
+	{
+		cin>>A[i];
+	}
+	for(i=0;i<n;i++)
+    {
+        min=A[i];
+        minI=i;
+        for(j=i+1;j<n;j++)
+        {
+            if(min>A[j])
+            {
+                min=A[j];
+                minI=j;
+            }
+        }
+        t=A[i];
+        A[i]=A[minI];
+        A[minI]=t;
+    }
+    cout<<"sorted percentage in ascending order:";
+    for(i=0;i<n;i++)
+    {
+        cout<<A[i]<<" ";
+    }
+    cout << "\nTop 5 students: ";
+    int count = (n < 5) ? n : 5;
+    for(i = n - 1; i >= n - count; i--) {
+        cout << A[i] << " ";
+    }
+
+    return 0;	
+}
