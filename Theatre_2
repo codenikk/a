@@ -1,0 +1,159 @@
+#include<iostream>
+using namespace std;
+
+class Theatre
+{
+    int rows, cols;
+    int seats[10][10]; // 0 = free, 1 = booked
+
+public:
+    Theatre(int r, int c)
+    {
+        rows = r;
+        cols = c;
+        for(int i = 0; i < rows; i++)
+            for(int j = 0; j < cols; j++)
+                seats[i][j] = 0; // initialize all as free
+    }
+
+    void display()
+    {
+        cout << "\nTheatre Seating Chart:\n";
+        cout << "   ";
+        for(int j = 0; j < cols; j++)
+            cout << j+1 << "  ";
+        cout << endl;
+
+        for(int i = 0; i < rows; i++)
+        {
+            cout << char('A' + i) << "  ";
+            for(int j = 0; j < cols; j++)
+            {
+                if(seats[i][j] == 0)
+                    cout << "[ ]";
+                else
+                    cout << "[X]";
+            }
+            cout << endl;
+        }
+    }
+
+    void showAvailableSeats()
+    {
+        cout << "\nList of Available Seats:\n";
+        bool found = false;
+        for(int i = 0; i < rows; i++)
+        {
+            for(int j = 0; j < cols; j++)
+            {
+                if(seats[i][j] == 0)
+                {
+                    cout << char('A' + i) << j + 1 << "  ";
+                    found = true;
+                }
+            }
+        }
+        if(!found)
+            cout << "No seats available!";
+        cout << endl;
+    }
+
+    void bookSeat(char row, int col)
+    {
+        int r = row - 'A';
+        int c = col - 1;
+
+        if(r >= 0 && r < rows && c >= 0 && c < cols)
+        {
+            if(seats[r][c] == 0)
+            {
+                seats[r][c] = 1;
+                cout << "Seat " << row << col << " booked successfully!\n";
+            }
+            else
+            {
+                cout << "Seat " << row << col << " is already booked!\n";
+            }
+        }
+        else
+        {
+            cout << "Invalid seat!\n";
+        }
+    }
+
+    void cancelSeat(char row, int col)
+    {
+        int r = row - 'A';
+        int c = col - 1;
+
+        if(r >= 0 && r < rows && c >= 0 && c < cols)
+        {
+            if(seats[r][c] == 1)
+            {
+                seats[r][c] = 0;
+                cout << "Seat " << row << col << " cancelled successfully!\n";
+            }
+            else
+            {
+                cout << "Seat " << row << col << " is not booked!\n";
+            }
+        }
+        else
+        {
+            cout << "Invalid seat!\n";
+        }
+    }
+};
+
+int main()
+{
+    Theatre t(10, 7);
+
+    int choice;
+    char row;
+    int seat;
+
+    do
+    {
+        cout << "\n--- Theatre Menu ---\n";
+        cout << "1. Display Seating Chart\n";
+        cout << "2. Show Available Seats\n";
+        cout << "3. Book a Seat\n";
+        cout << "4. Cancel a Booking\n";
+        cout << "5. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch(choice)
+        {
+            case 1:
+                t.display();
+                break;
+            case 2:
+                t.showAvailableSeats();
+                break;
+            case 3:
+                cout << "Enter Row (A-J): ";
+                cin >> row;
+                cout << "Enter Seat Number (1-7): ";
+                cin >> seat;
+                t.bookSeat(row, seat);
+                break;
+            case 4:
+                cout << "Enter Row (A-J): ";
+                cin >> row;
+                cout << "Enter Seat Number (1-7): ";
+                cin >> seat;
+                t.cancelSeat(row, seat);
+                break;
+            case 5:
+                cout << "Exiting...\n";
+                break;
+            default:
+                cout << "Invalid choice!\n";
+        }
+    }
+    while(choice != 5);
+
+    return 0;
+}
