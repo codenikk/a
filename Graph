@@ -1,0 +1,107 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Graph
+{
+    int n, p;
+    string city[5];
+    int Adjmat[5][5];
+
+public:
+    Graph()
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            for (int j = 0; j < 5; j++)
+            {
+                Adjmat[i][j] = (i == j) ? 0 : -1;
+            }
+        }
+    }
+
+    void initialize()
+    {
+        cout << "How many cities: ";
+        cin >> n;
+
+        for (int i = 0; i < n; i++)
+        {
+            cout << "Enter name of city " << i + 1 << ": ";
+            cin >> city[i];
+        }
+    }
+
+    int cityToIndex(string ct)
+    {
+        for (int i = 0; i < n; i++)
+        {
+            if (city[i] == ct)
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    void store()
+    {
+        cout << "How many paths are there: ";
+        cin >> p;
+
+        for (int k = 0; k < p; k++)
+        {
+            string s, d;
+            int cost;
+
+            cout << "\nEnter Source City: ";
+            cin >> s;
+            int id1 = cityToIndex(s);
+
+            cout << "Enter Destination City: ";
+            cin >> d;
+            int id2 = cityToIndex(d);
+
+            if (id1 == -1 || id2 == -1)
+            {
+                cout << "Invalid city name entered. Try again.\n";
+                k--;
+                continue;
+            }
+
+            cout << "Enter Cost of path: ";
+            cin >> cost;
+
+            Adjmat[id1][id2] = Adjmat[id2][id1] = cost;
+        }
+    }
+
+    void display()
+    {
+        cout << "\nAdjacency Matrix Representation of Graph:\n";
+        for (int i = 0; i < n; i++)
+        {
+            cout << city[i] << " ";
+        }
+        cout << endl;
+
+        for (int i = 0; i < n; i++)
+        {
+            cout << city[i] << " ";
+            for (int j = 0; j < n; j++)
+            {
+                cout << Adjmat[i][j] << " ";
+            }
+            cout << endl;
+        }
+    }
+};
+
+int main()
+{
+    Graph g;
+    g.initialize();
+    g.store();
+    g.display();
+    return 0;
+}
